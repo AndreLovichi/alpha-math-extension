@@ -5,4 +5,29 @@ body {
 h1 {
     margin: 0 0 10px 0;
     color: #42a5f6;
+    font-weight: 600;
+}
+
+section:not(:last-of-type) {
+    margin-bottom: 10px;
+}
+
+table {
+    border-spacing: 0;
+}
+
+table,
+table td {
+    border: 0.5px solid #dedede;
+}
+
+table td {
+    width: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+
+table td:hover {
+    background-color: #cfe9ff;
+    cursor: pointer;
 }
