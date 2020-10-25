@@ -8,9 +8,10 @@ function debug(text) {
 }
 
 function populateTable() {
-    table = document.getElementById("symbol-table");
+    const table = document.getElementById("symbol-table");
     LATIN_ALPHABET.forEach(letter => {
         const row = table.insertRow();
+        row.setAttribute("search-key", letter);
         insertClickableCell(row, getDoubleStruckSymbol(letter));
         insertClickableCell(row, getDoubleStruckSymbol(letter.toUpperCase()));
         insertClickableCell(row, getScriptSymbol(letter));
@@ -27,14 +28,50 @@ function populateTable() {
         newCell.addEventListener('click', function() {
             copyToClipBoard(symbol);
         });
+    }
+
+    function copyToClipBoard(text) {
+        chrome.runtime.sendMessage({
+            content: text,
+            type: "copyToClipboard"
+        });
     }    
 }
 
-function copyToClipBoard(text) {
-    chrome.runtime.sendMessage({
-        content: text,
-        type: "copyToClipboard"
-    });
+
+function addListenerOnSearchBar() {
+    const searchBar = document.getElementById("search-bar");
+    searchBar.addEventListener("input", function() {
+        const currentSearch = searchBar.value;
+        debug(`Search bar: ${currentSearch}`);
+        filterTable(currentSearch);    
+    })
+
+    function filterTable(currentSearch) {
+        showAllRows();
+
+        if (currentSearch !== "") {
+            hideRows(currentSearch);            
+        }
+    }
+
+    function showAllRows() {
+        const table = document.getElementById("symbol-table");
+        const rows = table.getElementsByTagName("tr");
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].classList.remove("hidden");
+        }
+    }
+
+    function hideRows(currentSearch) {
+        const table = document.getElementById("symbol-table");
+        const rows = table.getElementsByTagName("tr");
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].getAttribute("search-key") !== currentSearch.toLowerCase()) {
+                rows[i].classList.add("hidden");
+            }
+        }
+    }    
 }
 
 function setFocusOnSearchBar() {
@@ -43,6 +80,7 @@ function setFocusOnSearchBar() {
 
 document.addEventListener('DOMContentLoaded', function () {
     populateTable();
+    addListenerOnSearchBar();
     setFocusOnSearchBar();
 });
 

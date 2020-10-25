@@ -16,12 +16,12 @@ function copyToClipboard(text) {
 
 chrome.runtime.onMessage.addListener(function(message){
     switch (message.type) {
-        case "debugPopup": 
-            consoleLogFromPopup(message.content);
-            break;
-
         case "copyToClipboard":
             copyToClipboard(message.content)
+            break;
+
+        case "debugPopup": 
+            consoleLogFromPopup(message.content);
             break;
     }
 });
