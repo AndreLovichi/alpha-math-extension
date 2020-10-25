@@ -2,7 +2,7 @@ const LATIN_ALPHABET = ["a", "b", "c", "e", "f", "g", "h", "i", "j", "k", "l", "
 
 function debug(text) {
     chrome.runtime.sendMessage({
-        text,
+        content: text,
         type: "debugPopup"
     });
 }
@@ -11,19 +11,30 @@ function populateTable() {
     table = document.getElementById("symbol-table");
     LATIN_ALPHABET.forEach(letter => {
         const row = table.insertRow();
-        insertCellWithContent(row, getDoubleStruckSymbol(letter));
-        insertCellWithContent(row, getDoubleStruckSymbol(letter.toUpperCase()));
-        insertCellWithContent(row, getScriptSymbol(letter));
-        insertCellWithContent(row, getScriptSymbol(letter.toUpperCase()));
-        insertCellWithContent(row, getSerifSymbol(letter));
-        insertCellWithContent(row, getSerifSymbol(letter.toUpperCase()));
+        insertClickableCell(row, getDoubleStruckSymbol(letter));
+        insertClickableCell(row, getDoubleStruckSymbol(letter.toUpperCase()));
+        insertClickableCell(row, getScriptSymbol(letter));
+        insertClickableCell(row, getScriptSymbol(letter.toUpperCase()));
+        insertClickableCell(row, getSerifSymbol(letter));
+        insertClickableCell(row, getSerifSymbol(letter.toUpperCase()));
     });
 
-    function insertCellWithContent(row, content) {
+    function insertClickableCell(row, symbol) {
         const newCell = row.insertCell();
-        const textNode = document.createTextNode(content);
+        const textNode = document.createTextNode(symbol);
         newCell.appendChild(textNode);
+
+        newCell.addEventListener('click', function() {
+            copyToClipBoard(symbol);
+        });
     }    
+}
+
+function copyToClipBoard(text) {
+    chrome.runtime.sendMessage({
+        content: text,
+        type: "copyToClipboard"
+    });
 }
 
 function setFocusOnSearchBar() {
