@@ -27,6 +27,7 @@ function populateTable() {
 
         newCell.addEventListener('click', function() {
             copyToClipBoard(symbol);
+            showCopiedSymbol(symbol);
         });
     }
 
@@ -35,7 +36,12 @@ function populateTable() {
             content: text,
             type: "copyToClipboard"
         });
-    }    
+    }
+
+    function showCopiedSymbol(symbol) {
+        document.getElementById("copy-result").classList.remove("hidden");
+        document.getElementById("copied-symbol").innerText = symbol;
+    }
 }
 
 
