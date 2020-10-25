@@ -1,0 +1,24 @@
+{
+    "name": "Alpha Math",
+    "description" : "Copy mathematical alphanumeric symbols to clipboard in one click!",
+    "version": "1.0",
+    "manifest_version": 2,
+    "icons": {
+        "16": "alpha-math-16.png",
+        "32": "alpha-math-32.png",
+        "48": "alpha-math-48.png",
+        "128": "alpha-math-128.png"
+    },
+    "browser_action": {
+        "default_popup": "alpha-math.html",
+        "default_icon": "alpha-math-16.png"
+    },
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Alt+Shift+M"
+            },
+            "description": "Opens extension popup"
+        }
+    }
+}
