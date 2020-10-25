@@ -4,14 +4,19 @@
     "version": "1.0",
     "manifest_version": 2,
     "icons": {
-        "16": "alpha-math-16.png",
-        "32": "alpha-math-32.png",
-        "48": "alpha-math-48.png",
-        "128": "alpha-math-128.png"
+        "16": "images/alpha-math-16.png",
+        "32": "images/alpha-math-32.png",
+        "48": "images/alpha-math-48.png",
+        "128": "images/alpha-math-128.png"
     },
     "browser_action": {
         "default_popup": "alpha-math.html",
-        "default_icon": "alpha-math-16.png"
+        "default_icon": {
+            "16": "images/alpha-math-16.png",
+            "32": "images/alpha-math-32.png",
+            "48": "images/alpha-math-48.png",
+            "128": "images/alpha-math-128.png"
+        }
     },
     "commands": {
         "_execute_browser_action": {
@@ -20,5 +25,10 @@
             },
             "description": "Opens extension popup"
         }
+    },
+    "permissions": ["storage"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
     }
 }
